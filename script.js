@@ -44,66 +44,54 @@ document.addEventListener("DOMContentLoaded", function() {
       
   }
   
-  showTime();
-    greetingElement.textContent = greeting;
-  
-    function fetchWeather() {
-     
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            temperature: 25,
-            condition: "Sunny"
-          });
-        }, 1000);
+  // Get elements
+const timeElement = document.getElementById("time");
+const greetingElement = document.getElementById("greeting");
+const weatherElement = document.getElementById("weather");
+const celsiusRadio = document.getElementById("celsius");
+const fahrRadio = document.getElementById("fahr");
+
+// Set initial time
+function setTime() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+}
+setTime();
+setInterval(setTime, 1000);
+
+// Set initial greeting
+const greeting = "Good morning!";
+greetingElement.textContent = greeting;
+
+// Fetch weather data
+function fetchWeather() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        temperature: 25,
+        condition: "Sunny"
       });
-    }
-  
-    const weatherElement = document.getElementById("weather");
-    fetchWeather().then((data) => {
-      weatherElement.textContent = `Current temperature: ${data.temperature}°C, Condition: ${data.condition}`;
-    });
-  
-   
-    const celsiusRadio = document.getElementById("celsius");
-    const fahrRadio = document.getElementById("fahr");
-  
-    function updateWeatherUnit() {
-      const isCelsius = celsiusRadio.checked;
-      if (isCelsius) {
-        weatherElement.textContent = `Current temperature: 30°C, Condition: Sunny`;
-      } else {
-        weatherElement.textContent = `Current temperature: ${(30 * 9/5 + 32).toFixed(1)}°F, Condition: Sunny`;
-      }
-    }
-  
-    celsiusRadio.addEventListener("change", updateWeatherUnit);
-    fahrRadio.addEventListener("change", updateWeatherUnit);
+    }, 1000);
   });
+}
 
+fetchWeather().then((data) => {
+  weatherElement.textContent = `Current temperature: ${data.temperature}°C, Condition: ${data.condition}`;
+});
 
+// Update weather unit
+function updateWeatherUnit() {
+  const isCelsius = celsiusRadio.checked;
+  const temperature = isCelsius ? 30 : (30 * 9/5 + 32).toFixed(1);
+  const unit = isCelsius ? "°C" : "°F";
+  weatherElement.textContent = `Current temperature: ${temperature}${unit}, Condition: Sunny`;
+}
 
-
-function updateTime() {
-    const now = new Date();
-  
-    
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-  
-  
-    document.querySelector('[data-time="hours"]').textContent = hours;
-    document.querySelector('[data-time="minutes"]').textContent = minutes;
-    document.querySelector('[data-time="seconds"]').textContent = seconds;
-  }
-  
-  
-  updateTime();
-  setInterval(updateTime, 1000);
-
-
-
+celsiusRadio.addEventListener("change", updateWeatherUnit);
+fahrRadio.addEventListener("change", updateWeatherUnit);
 
 let slideIndex = 1;
 showSlides(slideIndex);
