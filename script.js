@@ -157,19 +157,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 document.addEventListener("DOMContentLoaded", function() {
   // Set the current year
   const yearSpan = document.getElementById("year");
-  const currentYear = new Date().getFullYear();
-  yearSpan.textContent = currentYear;
+  yearSpan.textContent = new Date().getFullYear();
 
   // Smooth scroll to top
   const scrollToTopButton = document.getElementById("scrollToTop");
-  scrollToTopButton.addEventListener("click", function() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+  scrollToTopButton.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
